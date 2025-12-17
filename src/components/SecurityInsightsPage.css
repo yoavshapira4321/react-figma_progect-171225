@@ -1,0 +1,500 @@
+/* Basic reset and layout */
+.si-page-root {
+  display: flex;
+  height: 100vh;
+  font-family: Inter, Roboto, Arial, sans-serif;
+  background: #f6f7fb;
+  color: #111827;
+}
+
+.si-sidebar {
+  width: 84px;
+  background: #fff;
+  border-right: 1px solid #e6e9ef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+}
+
+.si-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.si-logo img {
+  width: 36px;
+  height: 36px;
+}
+
+/* Sidebar items */
+.si-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.si-item {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.si-item-icon img {
+  width: 22px;
+  height: 22px;
+}
+
+.si-item-active {
+  background: #f2ebff;
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 12px rgba(11,14,22,0.04);
+}
+
+.si-item-label {
+  color: #5b21b6;
+  font-weight: 700;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.si-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  padding-bottom: 8px;
+}
+
+.si-settings {
+  width: 20px;
+  height: 20px;
+}
+
+.si-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #efefef;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.si-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+  flex: 1;
+}
+
+.si-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fbfbfd;
+  color: #374151;
+}
+
+.si-footer {
+  margin-bottom: 8px;
+}
+
+.si-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.si-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 28px;
+  background: transparent;
+}
+
+.si-title {
+  font-size: 14px;
+  margin: 0;
+  color: #0f172a;
+}
+
+.si-header-right {
+  display: flex;
+  gap: 12px;
+}
+
+.si-primary {
+  background: #0ea5e9;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.si-ghost {
+  background: transparent;
+  border: 1px solid #e6e9ef;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.si-content {
+  padding: 16px 28px 28px 28px;
+  overflow: auto;
+}
+
+.si-overview h2 {
+  margin: 0 0 4px 0;
+}
+
+.si-overview p {
+  margin: 0 0 18px 0;
+  color: #6b7280;
+}
+
+.si-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+}
+
+/* Wrap two stacked cards into a pair so they can be visually merged on hover */
+.si-card-pair {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 160ms ease;
+}
+
+/* Grow the two cards to become the merged container: remove the pseudo container and animate the cards themselves */
+.si-card-pair {
+  overflow: visible; /* allow cards to grow past the grid cell */
+  transition: gap 160ms ease, margin 180ms ease, transform 180ms ease;
+  margin: 0;
+}
+
+/* When a pair is hovered it keeps its position; other pairs are shifted left/right via JS-controlled classes */
+.si-card-pair.si-shift-right {
+  transform: translateX(35px) scale(0.9);
+}
+.si-card-pair.si-shift-left {
+  transform: translateX(-35px) scale(0.9);
+}
+
+.si-card-pair:hover {
+  z-index: 3; /* bring the pair above neighbors visually */
+  gap: 0; /* close the gap between stacked cards */
+  /* do not change margins here — other pairs will move */
+}
+
+/* responsive: reduce shift on narrower layouts */
+@media (max-width: 1000px) {
+  .si-card-pair.si-shift-right {
+    transform: translateX(16px) scale(0.975);
+  }
+  .si-card-pair.si-shift-left {
+    transform: translateX(-16px) scale(0.975);
+  }
+}
+
+@media (max-width: 640px) {
+  .si-card-pair.si-shift-right,
+  .si-card-pair.si-shift-left {
+    transform: none; /* no horizontal shifting on very small screens */
+  }
+}
+
+/* Animate both cards: increased horizontal expansion (3× the previous amount) and lift them so they appear as a single merged block */
+.si-card-pair:hover .si-card,
+.si-card-pair:focus-within .si-card {
+  transform: translateY(-2px) scaleX(1.25);
+  transform-origin: center;
+  border-color: transparent; /* hide borders while merging */
+  box-shadow: 0 12px 36px rgba(99,102,241,0.08);
+  position: relative;
+  z-index: 1;
+}
+
+/* Keep inner content visually stable by applying the inverse horizontal scale to the inner wrapper */
+.si-card-inner {
+  transition: transform 160ms ease;
+  transform-origin: center;
+}
+.si-card-pair:hover .si-card .si-card-inner,
+.si-card-pair:focus-within .si-card .si-card-inner {
+  transform: scaleX(0.8); /* inverse of 1/1.25 = 0.86956522 */
+} 
+
+/* Ensure the top card grows from its top edge and the bottom from its bottom edge so they meet cleanly */
+.si-card-pair:hover .si-card:first-child {
+  transform-origin: center top;
+}
+.si-card-pair:hover .si-card:last-child {
+  transform-origin: center bottom;
+}
+
+/* remove visible divider between the two cards */
+.si-card-pair:hover .si-card + .si-card {
+  border-top-color: transparent;
+}
+
+/* make margins smaller on narrower layouts */
+@media (max-width: 1000px) {
+  .si-card-pair:hover {
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .si-card-pair:hover {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+
+/* remove the middle border and merge corners on hover */
+.si-card-pair:hover .si-card:first-child {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.si-card-pair:hover .si-card:last-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.si-card-pair:hover .si-card + .si-card {
+  border-top-color: transparent; /* remove divider between the two cards */
+}
+
+.si-card {
+  background: white;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 6px 20px rgba(15,23,42,0.06);
+  border: 1px solid #eef0f6;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  cursor: pointer;
+}
+
+.si-card:focus {
+  outline: none;
+  box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+}
+
+.si-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.si-card-header h3 {
+  font-size: 16px;
+  margin: 0;
+  font-weight: 700;
+}
+
+/* meta row under header with icon */
+.si-card-meta {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.si-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff0f4;
+  color: #b91c1c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 1px 0 rgba(11,14,22,0.02) inset;
+  flex-shrink: 0;
+}
+
+.si-card-desc {
+  color: #6b7280;
+  font-size: 13px;
+  margin: 0;
+}
+
+/* table header style */
+.si-table-row.si-table-header {
+  background: #f2ebff;
+  color: #5b21b6; /* purple */
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,0,0,0.02);
+  padding: 10px 12px;
+  border-radius: 8px;
+}
+
+/* table wrapper — rounded container */
+.si-card-table {
+  margin-top: 14px;
+  border-top: none;
+  background: #faf8fc; /* very light background */
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(11,14,22,0.03);
+}
+
+/* header row */
+.si-table-row.si-table-header {
+  display: flex;
+  gap: 0;
+}
+.si-table-row.si-table-header > div {
+  flex: 1 1 0;
+  padding: 14px 18px;
+  background: #f2ebff;
+  color: #5b21b6;
+  font-weight: 700;
+}
+.si-table-row.si-table-header > div:last-child {
+  flex: 0 0 40px; /* little spacer for actions column */
+}
+
+/* regular rows */
+.si-table-row {
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+.si-table-row > div {
+  flex: 1 1 0;
+  padding: 14px 18px;
+  background: #ffffff; /* row panels */
+}
+.si-table-row > div:last-child {
+  flex: 0 0 40px;
+  padding: 14px;
+}
+
+.si-table-row:not(.si-table-header) {
+  border-bottom: 1px dashed #f3f4f6;
+}
+
+/* action cell */
+.si-row-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+/* footer inside the table */
+.si-table-footer {
+  padding: 18px;
+  background: #faf7fb;
+  border-top: 1px solid rgba(11,14,22,0.03);
+  display: flex;
+  justify-content: flex-end;
+}
+.si-footer-btn {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.si-badge {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 6px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+
+.si-card-desc {
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.si-card-table {
+  border-top: 1px solid #f3f4f6;
+}
+
+.si-table-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed #f3f4f6;
+  align-items: center;
+}
+
+.si-table-header {
+  color: #374151;
+  font-weight: 600;
+}
+
+.si-finding {
+  color: #111827;
+}
+
+.si-status {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.si-card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.si-link {
+  background: transparent;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .si-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .si-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .si-sidebar {
+    display: none;
+  }
+}
