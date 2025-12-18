@@ -47,6 +47,7 @@ export default function SecurityInsightsPage() {
 
           <div className="si-grid">
             {cardPairs.map((pair, idx) => {
+              const col = idx % 3;
               const shiftClass =
                 activePair !== null && activePair !== idx
                   ? idx < activePair
@@ -54,10 +55,37 @@ export default function SecurityInsightsPage() {
                     : 'si-shift-right'
                   : '';
 
+              const selfShiftClass =
+                activePair === idx
+                  ? col === 0
+                    ? 'si-active-left'
+                    : col === 2
+                      ? 'si-active-right'
+                      : 'si-active-center'
+                  : '';
+
+              // Add class for middle pair when right pair is hovered
+              const middleWhenRightActive =
+                activePair !== null &&
+                activePair % 3 === 2 &&
+                col === 1 &&
+                Math.floor(idx / 3) === Math.floor(activePair / 3)
+                  ? 'si-shift-with-right'
+                  : '';
+
+              // Add class for left pair when right pair is hovered
+              const leftWhenRightActive =
+                activePair !== null &&
+                activePair % 3 === 2 &&
+                col === 0 &&
+                Math.floor(idx / 3) === Math.floor(activePair / 3)
+                  ? 'si-left-when-right-active'
+                  : '';
+
               return (
                 <div
                   key={idx}
-                  className={`si-card-pair ${shiftClass}`}
+                  className={`si-card-pair ${shiftClass} ${selfShiftClass} ${middleWhenRightActive} ${leftWhenRightActive}`}
                   onMouseEnter={() => handleEnter(idx)}
                   onMouseLeave={handleLeave}
                   onFocusCapture={() => handleEnter(idx)}

@@ -204,6 +204,39 @@
   transform: translateX(-35px) scale(0.9);
 }
 
+/* Active (hovered) pair nudges itself based on its column */
+.si-card-pair.si-active-left:hover,
+.si-card-pair.si-active-left:focus-within {
+  transform: translateX(50px);
+}
+
+.si-card-pair.si-active-right:hover,
+.si-card-pair.si-active-right:focus-within {
+  transform: translateX(-50px);
+}
+
+/* When the leftmost pair is hovered, shift only the middle pair to the right */
+.si-card-pair.si-active-left:hover ~ .si-card-pair:nth-child(2),
+.si-card-pair.si-active-left:focus-within ~ .si-card-pair:nth-child(2) {
+  transform: translateX(80px) scale(0.9);
+}
+
+/* When the leftmost pair is hovered, don't shift the right pair, just scale it down */
+.si-card-pair.si-active-left:hover ~ .si-card-pair:nth-child(3),
+.si-card-pair.si-active-left:focus-within ~ .si-card-pair:nth-child(3) {
+  transform: translateX(35px) scale(0.9);
+}
+
+/* When the rightmost pair is hovered, shift middle pair to the left */
+.si-card-pair.si-shift-with-right {
+  transform: translateX(-80px) scale(0.9);
+}
+
+/* When the rightmost pair is hovered, shift left pair slightly to the left */
+.si-card-pair.si-left-when-right-active {
+  transform: translateX(-35px) scale(0.9);
+}
+
 .si-card-pair:hover {
   z-index: 3; /* bring the pair above neighbors visually */
   gap: 0; /* close the gap between stacked cards */
@@ -218,12 +251,46 @@
   .si-card-pair.si-shift-left {
     transform: translateX(-16px) scale(0.975);
   }
+
+  .si-card-pair.si-active-left:hover,
+  .si-card-pair.si-active-left:focus-within {
+    transform: translateX(10px);
+  }
+
+  .si-card-pair.si-active-right:hover,
+  .si-card-pair.si-active-right:focus-within {
+    transform: translateX(-10px);
+  }
+
+  /* When the leftmost pair is hovered, shift only the middle pair to the right */
+  .si-card-pair.si-active-left:hover ~ .si-card-pair:nth-child(2),
+  .si-card-pair.si-active-left:focus-within ~ .si-card-pair:nth-child(2) {
+    transform: translateX(42px) scale(0.975);
+  }
+
+  /* When the leftmost pair is hovered, shift the right pair to the right as well */
+  .si-card-pair.si-active-left:hover ~ .si-card-pair:nth-child(3),
+  .si-card-pair.si-active-left:focus-within ~ .si-card-pair:nth-child(3) {
+    transform: translateX(42px) scale(0.975);
+  }
+
+  /* When the rightmost pair is hovered, shift middle pair to the left */
+  .si-card-pair.si-shift-with-right {
+    transform: translateX(-42px) scale(0.975);
+  }
 }
 
 @media (max-width: 640px) {
   .si-card-pair.si-shift-right,
   .si-card-pair.si-shift-left {
     transform: none; /* no horizontal shifting on very small screens */
+  }
+
+  .si-card-pair.si-active-left:hover,
+  .si-card-pair.si-active-left:focus-within,
+  .si-card-pair.si-active-right:hover,
+  .si-card-pair.si-active-right:focus-within {
+    transform: none;
   }
 }
 
